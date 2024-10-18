@@ -9,15 +9,20 @@ A collection of personal utility scripts for macOS to streamline daily tasks.
 **Description:** Combines all `.txt` or `.md` files in the current directory into a single file.
 
 **Usage:**
+	```bash
+	combine_files <extension> [output_filename]
+	```
 
-Examples:
+**Examples:**
 	
     •	Combine all .txt files into combined.txt:
+
 	```bash
 	combine_files txt combined.txt
 	```
  
     •	Combine all .md files into markdown_collection.md:
+
 	```bash
 	combine_files md markdown_collection.md
 	```
