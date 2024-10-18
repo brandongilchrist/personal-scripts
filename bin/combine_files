@@ -1,0 +1,49 @@
+#!/bin/zsh
+# combine_files: Combine .txt or .md files in the current directory
+
+set -euo pipefail  # Enable strict error handling
+
+# Function to display usage
+usage() {
+    echo "Usage: combine_files <extension> [output_filename]"
+    echo "Example: combine_files txt combined.txt"
+    echo "         combine_files md combined.md"
+}
+
+# Check if at least one argument is provided
+if [ "$#" -lt 1 ] || [ "$#" -gt 2 ]; then
+    usage
+    exit 1
+fi
+
+# Assign arguments
+ext="$1"
+output="${2:-combined.$ext}"
+
+# Validate extension
+if [[ "$ext" != "txt" && "$ext" != "md" ]]; then
+    echo "Error: Unsupported extension '$ext'. Please use 'txt' or 'md'."
+    exit 1
+fi
+
+# Check for files with the given extension
+files=(*."$ext")
+if [ "${#files[@]}" -eq 0 ]; then
+    echo "No .$ext files found in the current directory."
+    exit 1
+fi
+
+# Remove existing output file to prevent duplication
+if [ -f "$output" ]; then
+    echo "Removing existing '$output'."
+    rm "$output"
+fi
+
+# Combine files
+for file in "${files[@]}"; do
+    echo "Adding '$file' to '$output'."
+    cat "$file" >> "$output"
+    echo -e "\n" >> "$output"  # Add a newline for separation
+done
+
+echo "Successfully combined ${#files[@]} .$ext files into '$output'."
